@@ -1,0 +1,649 @@
+openapi: 3.0.3
+info:
+  title: Spy Cat mission control API
+  version: v1
+paths:
+  /api/cats/:
+    get:
+      operationId: cats_list
+      tags:
+      - cats
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cat'
+          description: ''
+    post:
+      operationId: cats_create
+      tags:
+      - cats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cat'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cat'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: ''
+  /api/cats/{id}/:
+    get:
+      operationId: cats_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cat.
+        required: true
+      tags:
+      - cats
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: ''
+    put:
+      operationId: cats_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cat.
+        required: true
+      tags:
+      - cats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cat'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cat'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cat'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: ''
+    patch:
+      operationId: cats_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cat.
+        required: true
+      tags:
+      - cats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCat'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCat'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCat'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cat'
+          description: ''
+    delete:
+      operationId: cats_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cat.
+        required: true
+      tags:
+      - cats
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/missions/:
+    get:
+      operationId: missions_list
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      tags:
+      - missions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mission'
+          description: ''
+    post:
+      operationId: missions_create
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Mission'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Mission'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+  /api/missions/{mission_pk}/targets/{id}:
+    patch:
+      operationId: missions_targets_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: mission_pk
+        schema:
+          type: integer
+        required: true
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTarget'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTarget'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTarget'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Target'
+          description: ''
+  /api/missions/{id}/:
+    get:
+      operationId: missions_retrieve
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mission.
+        required: true
+      tags:
+      - missions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+    put:
+      operationId: missions_update
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mission.
+        required: true
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MissionUpdateSchemaHack'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MissionUpdateSchemaHack'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MissionUpdateSchemaHack'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+    patch:
+      operationId: missions_partial_update
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mission.
+        required: true
+      tags:
+      - missions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMissionUpdateSchemaHack'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMissionUpdateSchemaHack'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMissionUpdateSchemaHack'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mission'
+          description: ''
+    delete:
+      operationId: missions_destroy
+      description: Handles Mission CRUD and agency business logic for assignments
+        and completion.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this mission.
+        required: true
+      tags:
+      - missions
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    Cat:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        years_of_experience:
+          type: integer
+          maximum: 20
+          minimum: 0
+        breed:
+          type: string
+          maxLength: 100
+        salary:
+          type: number
+          format: double
+          maximum: 1000000
+          minimum: 0
+        is_available:
+          type: boolean
+          readOnly: true
+        current_mission_id:
+          type: integer
+          readOnly: true
+      required:
+      - breed
+      - current_mission_id
+      - id
+      - is_available
+      - name
+      - salary
+      - years_of_experience
+    Mission:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cat:
+          type: integer
+          nullable: true
+        is_complete:
+          type: boolean
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Target'
+      required:
+      - id
+      - targets
+    MissionUpdateSchemaHack:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cat:
+          type: integer
+          nullable: true
+      required:
+      - id
+    PatchedCat:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        years_of_experience:
+          type: integer
+          maximum: 20
+          minimum: 0
+        breed:
+          type: string
+          maxLength: 100
+        salary:
+          type: number
+          format: double
+          maximum: 1000000
+          minimum: 0
+        is_available:
+          type: boolean
+          readOnly: true
+        current_mission_id:
+          type: integer
+          readOnly: true
+    PatchedMissionUpdateSchemaHack:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        cat:
+          type: integer
+          nullable: true
+    PatchedTarget:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        notes:
+          type: string
+        is_complete:
+          type: boolean
+    Target:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        country:
+          type: string
+          maxLength: 100
+        notes:
+          type: string
+        is_complete:
+          type: boolean
+      required:
+      - country
+      - id
+      - name
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
