@@ -20,7 +20,7 @@ A backend system for managing secret feline agents, their missions, and field ta
 ### Clone the repository
 ```bash
 git clone https://github.com/olenazhelezova/Spy-Cat-Agency.git
-cd spy-cat-agency
+cd Spy-Cat-Agency
 ```
 
 ### Install dependencies:
