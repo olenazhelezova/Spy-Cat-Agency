@@ -47,7 +47,7 @@ python manage.py runserver
 
 ## Database
 
-The project ships with `db.sqlite3` for development.
+The project ships with `db.sqlite3` for development and testing.
 
 ## API Endpoints
 
